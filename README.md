@@ -57,8 +57,8 @@ It supports real-time communication between users, authentication and more
 
 ### 4. Logging
 
-- Logger has been handled by SLF4J and also implemenented ELK Stack to view the logs
-- logstash.conf is available able under resource folder
+- Logging has been handled by SLF4J and also implemenented ELK Stack to view the logs
+- logstash.conf file available at [Logstash file location](https://github.com/abdulwhd964/chat-server/blob/main/src/main/resources/logstash.conf)
 - Use this: if you have ELK Setup : Kibana URL: http://localhost:5601
 - Local Kibana Logs Image ![Alt text](https://github.com/abdulwhd964/chat-server/assets/61117499/6a456ff7-e2bd-4ec0-bd81-b6dd448edf97)
 
