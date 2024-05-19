@@ -4,6 +4,7 @@ import com.chatserver.entity.ChatMessage;
 import com.chatserver.presentation.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.junit.Test;
@@ -96,6 +97,21 @@ public class ChatServerApplicationTests {
 		mvc.perform(MockMvcRequestBuilders.delete(appUrl+"/message/1?username=abdul"))
 				.andExpect(MockMvcResultMatchers.status().isNoContent());
 	}
+
+	@Test
+	public void testShouldNotPostAnMessage() throws Exception {
+		ChatMessage mockChatMessage = new ChatMessage();
+		mockChatMessage.setContent(null);
+		// Performing the POST request
+		ResultActions resultActions = mvc
+				.perform(MockMvcRequestBuilders.post(appUrl+"/message").contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(mockChatMessage)))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+		String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+		assertAll(() -> assertEquals("content is required", JsonPath.read(responseBody, "$.message")));
+	}
+
 	private ChatMessage convertResultActionsToChatMessage(final ResultActions resultActions)
 			throws UnsupportedEncodingException, JsonProcessingException {
 		return objectMapper.readValue(objectMapper.writeValueAsString(objectMapper
