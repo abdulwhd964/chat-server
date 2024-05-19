@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .chat-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .message-list {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+        .message-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #d4edda;
+        }
+        .message-item.receiver {
+            background-color: #f8d7da;
+        }
+        .message-content {
+            flex-grow: 1;
+        }
+        .delete-btn-sender {
+            background: transparent;
+            border: none;
+            color: #605a5b;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .delete-btn-receiver {
+            background: transparent;
+            border: none;
+            color: #FF0000;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .input-group {
+            margin-top: 10px;
+        }
+        .btn-send {
+            background-color: #007bff;
+            color: white;
+        }
+        #errorMessage {
+            display: none;
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">Chat Room</div>
+    <div id="messageList" class="message-list"></div>
+    <div class="input-group">
+        <input type="text" id="messageInput" class="form-control" placeholder="Enter your message here...">
+        <div class="input-group-append">
+            <button class="btn btn-send" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <div id="errorMessage">Error: Please type a message before sending.</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    var stompClient = null;
+    var currentUser = ''; // Replace with dynamic user if available
+
+    function connect() {
+        document.getElementById('errorMessage').style.display = 'none';
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/messages', function(messageOutput) {
+                var response = JSON.parse(messageOutput.body);
+                if(response.message==='Success'){
+                    var message = response.data;
+                currentUser = message.currentUserName;
+                if (message.type === 'DELETE') {
+                    removeMessage(message.id);
+                } else {
+                    showMessage(message);
+                }
+                }else{
+                    alert(response.data);
+                }
+
+            });
+
+            stompClient.subscribe('/topic/delete/messages', function(messageOutput) {
+                var response = JSON.parse(messageOutput.body);
+                if(response.message==='Success'){
+                    var message = response.data;
+                currentUser = message.currentUserName;
+                if (message.type === 'DELETE') {
+                    removeMessage(message.id);
+                } else {
+                    showMessage(message);
+                }
+                }else{
+
+                    alert(response.data);
+                }
+            });
+        });
+    }
+
+    function sendMessage() {
+        var messageInput = document.getElementById('messageInput');
+        var messageContent = messageInput.value.trim();
+        if(messageContent) {
+            document.getElementById('errorMessage').style.display = 'none';
+            var chatMessage = {
+                sender: '',  // Use the currentUser variable
+                content: messageContent,
+                type: 'CHAT'
+            };
+            stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+            messageInput.value = '';
+        } else {
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+    }
+
+    function deleteMessage(messageElement, messageId) {
+        stompClient.send("/app/delete", {}, JSON.stringify({ id: messageId, type: 'DELETE' }));
+    }
+
+    function removeMessage(messageId) {
+        var messageElement = document.getElementById(messageId);
+        if (messageElement) {
+            messageElement.remove();
+        }
+    }
+
+    function showMessage(message) {
+        document.getElementById('errorMessage').style.display = 'none';
+        var messageList = document.getElementById('messageList');
+        var messageElement = document.createElement('div');
+        messageElement.className = 'message-item ' + (message.sender === currentUser ? '' : 'receiver');
+
+        // Assign a unique ID to each message element
+        messageElement.id = message.id;
+
+        messageElement.innerHTML = `
+            <div class="message-content">
+                <strong>${message.sender}:</strong> ${message.content}
+            </div>
+            ${message.sender === 'abdul' ? `<button class="delete-btn-sender" onclick="deleteMessage(document.getElementById('${message.id}'), '${message.id}')">
+                <i class="fas fa-trash-alt"></i>
+            </button>` : `<button class="delete-btn-receiver" onclick="deleteMessage(document.getElementById('${message.id}'), '${message.id}')">
+                <i class="fas fa-trash-alt"></i>
+            </button>` }
+            `;
+
+        messageList.appendChild(messageElement);
+        messageList.scrollTop = messageList.scrollHeight;
+    }
+
+    connect();
+</script>
+</body>
+</html>
