@@ -2,7 +2,7 @@
 
 ## Overview
 This project is a Chat Server system built using Spring Boot. 
-It supports real-time communication between users, user authentication and more
+It supports real-time communication between users, authentication and more
 
 ## Setup
 
@@ -10,12 +10,9 @@ It supports real-time communication between users, user authentication and more
 - Git clone
 - mvn clean install
 - Make sure you have lombok in Eclipse IDE or you can use IntelliJ
-- navigate to the main, Run as Java application
+- navigate to the ChatServerApplication.java file, Run as Java application
 - Application url: [URL](http://localhost:8080/)
-- once the application launches, it prompts to enter username and password
-  - When application launches, two user has been created via schema.sql file
-    - username and password: abdul and abdul
-    - username and password: wahid and wahid
+- once the application launches, it prompts to enter username and password, you can find it under [SQL File](https://github.com/abdulwhd964/chat-server/blob/main/src/main/resources/schema.sql)
     
 ## Technologies Used
 - Spring Boot
@@ -63,7 +60,7 @@ It supports real-time communication between users, user authentication and more
 - Logger has been handled by SLF4J and also implemenented ELK Stack to view the logs
 - logstash.conf is available able under resource folder
 - Use this: if you have ELK Setup : Kibana URL: http://localhost:5601
-- Local Kibana Logs Image ![Alt text](https://github-production-user-asset-6210df.s3.amazonaws.com/61117499/313422562-44b4712a-5e44-435e-99cc-5dd1be71d6ef.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240316%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240316T180519Z&X-Amz-Expires=300&X-Amz-Signature=3795d5f81df33eff92acadc12da26cd69f592fdd7d7ca052fb125af047790335&X-Amz-SignedHeaders=host&actor_id=61117499&key_id=0&repo_id=764009502)
+- Local Kibana Logs Image ![Alt text](https://github.com/abdulwhd964/chat-server/assets/61117499/6a456ff7-e2bd-4ec0-bd81-b6dd448edf97)
 
 ### 5. Transactional
 
@@ -72,7 +69,7 @@ It supports real-time communication between users, user authentication and more
 ### 6. Swagger Documentation
 
 - Access the Swagger documentation for the API at [Swagger URL](http://localhost:8080/swagger-ui/index.html)
-
+- you can pass username and password in the Authorize tab, below image for reference ![Alt text](https://github.com/abdulwhd964/chat-server/assets/61117499/3c0916a2-2370-4ca9-9b0e-df21bf3061cc)
 
 ### 7. Caching
 
@@ -97,11 +94,12 @@ It supports real-time communication between users, user authentication and more
 
 ### 13. Exception Handler
 
-- We have implemented a global exception handler using @ControllerAdvice and @ExceptionHandler annotations to handle exceptions thrown by controllers across the application.
+- We have implemented a global exception handler using @RestControllerAdvice and @ExceptionHandler annotations to handle exceptions thrown by controllers across the application.
 
 ### 14. Inmemory Database
 
 - H2 Database URL: [H2-Console](http://localhost:8080/h2-console)
+- Database: chatserverdb
 - username: sa
 - password: password
 
