@@ -4,6 +4,13 @@
 This project is a Chat Server system built using Spring Boot. 
 It supports real-time communication between users, authentication and more
 
+## Render Deployment 
+
+- This application has been deployed with Render using Docker Image, you can access this application via 
+- [Backend Swagger URL](https://chat-server-2-n70y.onrender.com/swagger-ui/index.html)
+- [Application URL](https://chat-server-2-n70y.onrender.com/login)
+
+
 ## Setup
 
 - Java 17 is required to run the application
@@ -113,8 +120,4 @@ It supports real-time communication between users, authentication and more
     - Run Command:
         - docker run -p 8080:8080 chat-server .
 
-### 16. Render Deployment
-- This application has been deployed with Render using Docker Image, you can access this application via [Backend Swagger URL](https://student-management-system-tim.onrender.com/api/swagger-ui/index.html)
-
-
-### 17. [Postman collection](https://github.com/abdulwhd964/chat-server/files/15370116/Chat.Server.Api.postman_collection.json)
+### 16. [Postman collection](https://github.com/abdulwhd964/chat-server/files/15370116/Chat.Server.Api.postman_collection.json)
