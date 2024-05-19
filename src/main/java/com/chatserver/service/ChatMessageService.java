@@ -22,6 +22,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +41,14 @@ public class ChatMessageService {
     @Transactional
     @Caching(evict = { @CacheEvict(value = "chat", allEntries = true) })
     public Response saveMessage(final ChatMessageDTO message) {
-        return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
-                .data(chatMapper.entityToDTO(chatMessageRepository.save(chatMapper.DtoToEntity(message)))).build();
+        try{
+            return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
+                    .data(chatMapper.entityToDTO(chatMessageRepository.save(chatMapper.DtoToEntity(message)))).build();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    return null;
     }
 
     @Cacheable(value = "chat",key = "#sender")

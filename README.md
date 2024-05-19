@@ -37,10 +37,10 @@ It supports real-time communication between users, authentication and more
 
 ### 1. CRUD Operations
 
-- **Post message:** Post message : [Post an message](http://localhost:8080/api/chat/message) , Method: POST
-- **Get all messages:** Get All messages : [Get all messages](http://localhost:8080/api/chat/messages) , Method: GET
-- **Get all messages by sender:** Get all messages by sender : [Get all messages by sender](http://localhost:8080/api/chat/messages/sender) , Method: GET
-- **Delete message by sender:** Delete message by id and sender: [Delete message by id and sender](http://localhost:8080/api/chat/message/1?username=abdul) , Method: Delete
+- **Post message:** [Post an message](http://localhost:8080/api/chat/message) , Method: POST
+- **Get all messages:** [Get all messages](http://localhost:8080/api/chat/messages) , Method: GET
+- **Get all messages by sender:** [Get all messages by sender](http://localhost:8080/api/chat/messages/sender) , Method: GET
+- **Delete message by sender:** [Delete message by id and sender](http://localhost:8080/api/chat/message/1?username=abdul) , Method: Delete
 
 ### 2. Validation
 

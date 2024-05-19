@@ -45,16 +45,16 @@ public class ChatController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK. The operation was successful."), @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid authorization"), @ApiResponse(responseCode = "404", description = "Returned when the provided sender is not found."), @ApiResponse(responseCode = "500", description = "Returned when an unexpected internal server error occurs.")})
     @Operation(summary = "get message by sender")
     @GetMapping("/messages/sender")
-    public Response getMessagesBySender() {
-        return chatMessageService.getMessagesBySender(SecurityContextHolder.getContext().getAuthentication().getName());
+    public ResponseEntity<Response> getMessagesBySender() {
+        return new ResponseEntity<>(chatMessageService.getMessagesBySender(SecurityContextHolder.getContext().getAuthentication().getName()),HttpStatus.OK);
     }
 
     @Tag(name = "Get All messages")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK. The operation was successful."), @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid authorization"), @ApiResponse(responseCode = "500", description = "Returned when an unexpected internal server error occurs.")})
     @Operation(summary = "get all messages")
     @GetMapping("/messages")
-    public Response getMessages() {
-        return chatMessageService.getMessages();
+    public ResponseEntity<Response> getMessages() {
+        return new ResponseEntity<>(chatMessageService.getMessages(),HttpStatus.OK);
     }
 
     @Tag(name = "Delete message by id")
@@ -67,7 +67,7 @@ public class ChatController {
             return new ResponseEntity<>(new ResponseBuilder().message(ChatAppConstant.ERROR).data("You are not the sender of this message.").build(), HttpStatus.BAD_REQUEST);
         }
         chatMessageService.deleteMessage(id, username);
-        return null;
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 

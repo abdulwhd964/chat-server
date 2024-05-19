@@ -75,6 +75,7 @@
             text-align: center;
             margin-top: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -103,35 +104,27 @@
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/messages', function(messageOutput) {
-                var response = JSON.parse(messageOutput.body);
+                var responseBody = JSON.parse(messageOutput.body);
+                var response = responseBody.body;
                 if(response.message==='Success'){
                     var message = response.data;
-                currentUser = message.currentUserName;
-                if (message.type === 'DELETE') {
-                    removeMessage(message.id);
-                } else {
-                    showMessage(message);
-                }
+                    currentUser = message.currentUserName;
+                   showMessage(message);
                 }else{
-                    alert(response.data);
+                    alert("some error occurred");
                 }
 
             });
 
             stompClient.subscribe('/topic/delete/messages', function(messageOutput) {
-                var response = JSON.parse(messageOutput.body);
-                if(response.message==='Success'){
-                    var message = response.data;
-                currentUser = message.currentUserName;
-                if (message.type === 'DELETE') {
-                    removeMessage(message.id);
-                } else {
-                    showMessage(message);
-                }
-                }else{
-
+                var responseBody = JSON.parse(messageOutput.body);
+                var response = responseBody.body;
+                if(response.message==='Error'){
                     alert(response.data);
                 }
+                var data = response.data;
+                removeMessage(data.id);
+
             });
         });
     }
@@ -189,6 +182,7 @@
     }
 
     connect();
+
 </script>
 </body>
 </html>
