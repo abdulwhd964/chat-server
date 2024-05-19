@@ -24,7 +24,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SecurityConfig {
 
-	static final String[] AUTH_WHITE_LIST = { "/h2-console/**", "/swagger-ui/index.html", "/login", "/app/chat" };
+	static final String[] AUTH_WHITE_LIST = { "/h2-console/**", "/swagger-ui/index.html/**", "/login",
+			"/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/swagger-resources/**" };
 
 	@Autowired
 	CustomAuthenticationSuccessHandler authenticationSuccessHandler;
