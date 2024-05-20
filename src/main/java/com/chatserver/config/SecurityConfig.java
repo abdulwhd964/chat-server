@@ -8,7 +8,6 @@ package com.chatserver.config;
 import com.chatserver.handler.CustomAuthenticationSuccessHandler;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -25,19 +24,21 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 	static final String[] AUTH_WHITE_LIST = { "/h2-console/**", "/swagger-ui/index.html/**", "/login",
-			"/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/swagger-resources/**" ,"/ws/**","/api/**"};
+			"/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/swagger-resources/**", "/ws/**", "/api/**" };
 
-	@Autowired
-	CustomAuthenticationSuccessHandler authenticationSuccessHandler;
+	@Bean
+	public CustomAuthenticationSuccessHandler getAuthenticationSuccessHandler() {
+		return new CustomAuthenticationSuccessHandler();
+	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(
-				(authorize) -> authorize.requestMatchers(AUTH_WHITE_LIST).permitAll().anyRequest().authenticated())
-				.csrf((csrf) -> csrf.disable()).httpBasic(Customizer.withDefaults())
-				.headers((headers) -> headers.frameOptions((frame) -> frame.sameOrigin())).formLogin(form -> {
+				authorize -> authorize.requestMatchers(AUTH_WHITE_LIST).permitAll().anyRequest().authenticated())
+				.csrf(csrf -> csrf.disable()).httpBasic(Customizer.withDefaults())
+				.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())).formLogin(form -> {
 					Customizer.withDefaults();
-					form.successHandler(authenticationSuccessHandler);
+					form.successHandler(getAuthenticationSuccessHandler());
 				});
 		return http.build();
 	}

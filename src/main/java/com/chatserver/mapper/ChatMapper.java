@@ -15,21 +15,21 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ChatMapper {
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "sender", target = "sender")
-    @Mapping(source = "content", target = "content")
-    @Mapping(source = "timestamp", target = "timestamp")
-    @Mapping(source = "currentUserName", target = "currentUserName")
-    @Mapping(source = "type", target = "type")
-    ChatMessageDTO entityToDTO(ChatMessage entity);
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "sender", target = "sender")
+	@Mapping(source = "content", target = "content")
+	@Mapping(source = "timestamp", target = "timestamp")
+	@Mapping(source = "currentUserName", target = "currentUserName")
+	@Mapping(source = "type", target = "type")
+	ChatMessageDTO entityToDTO(ChatMessage entity);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "sender", target = "sender")
-    @Mapping(source = "content", target = "content")
-    @Mapping(source = "timestamp", target = "timestamp")
-    @Mapping(source = "currentUserName", target = "currentUserName")
-    @Mapping(source = "type", target = "type")
-    ChatMessage DtoToEntity(ChatMessageDTO chatMessageDTO);
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "sender", target = "sender")
+	@Mapping(source = "content", target = "content")
+	@Mapping(source = "timestamp", target = "timestamp")
+	@Mapping(source = "currentUserName", target = "currentUserName")
+	@Mapping(source = "type", target = "type")
+	ChatMessage dtoToEntity(ChatMessageDTO chatMessageDTO);
 
-    List<ChatMessageDTO> entityToList(List<ChatMessage> chatMessage);
+	List<ChatMessageDTO> entityToList(List<ChatMessage> chatMessage);
 }

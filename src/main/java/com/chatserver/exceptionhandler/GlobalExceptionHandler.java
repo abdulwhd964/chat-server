@@ -27,59 +27,60 @@ import java.util.StringJoiner;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GlobalExceptionHandler {
-    static String SPACE = " ";
+	static String space = " ";
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUsernameNotFoundException(UserNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<String> handleUsernameNotFoundException(UserNotFoundException ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<String> handlePasswordMismatchException(BadCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password Mismatch");
-    }
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("please try again");
-    }
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<String> handlePasswordMismatchException(BadCredentialsException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password Mismatch");
+	}
 
-    @ExceptionHandler(MessageNotFoundException.class)
-    public ResponseEntity<String> handleMessageNotFoundException(MessageNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("please try again");
+	}
 
-    @ExceptionHandler(value = ConstraintViolationException.class)
-    ResponseEntity<ErrorResponse> handleConstrainViolation(final ConstraintViolationException exception) {
-        log.error("An error occurred: {}", exception.getMessage(), exception);
-        return new ResponseEntity<>(new ErrorResponse(buildErrors(exception).toString()), HttpStatus.BAD_REQUEST);
-    }
+	@ExceptionHandler(MessageNotFoundException.class)
+	public ResponseEntity<String> handleMessageNotFoundException(MessageNotFoundException ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(final MethodArgumentNotValidException exception) {
-        log.error("An error occurred: {}", exception.getMessage(), exception);
-        return new ResponseEntity<>(new ErrorResponse(buildErrors(exception).toString()), HttpStatus.BAD_REQUEST);
-    }
+	@ExceptionHandler(value = ConstraintViolationException.class)
+	ResponseEntity<ErrorResponse> handleConstrainViolation(final ConstraintViolationException exception) {
+		log.error("An error occurred: {}", exception.getMessage(), exception);
+		return new ResponseEntity<>(new ErrorResponse(buildErrors(exception).toString()), HttpStatus.BAD_REQUEST);
+	}
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("please try again");
-    }
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(final MethodArgumentNotValidException exception) {
+		log.error("An error occurred: {}", exception.getMessage(), exception);
+		return new ResponseEntity<>(new ErrorResponse(buildErrors(exception).toString()), HttpStatus.BAD_REQUEST);
+	}
 
-    private StringJoiner buildErrors(final ConstraintViolationException exception) {
-        var errors = new StringJoiner(",");
-        for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-            var propertyPath = constraintViolation.getPropertyPath().toString();
-            var errorViolation = propertyPath.substring(propertyPath.lastIndexOf(".") + 1);
-            errors.add(errorViolation + SPACE + constraintViolation.getMessage());
-        }
-        return errors;
-    }
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<String> handleException(Exception ex) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("please try again");
+	}
 
-    private StringJoiner buildErrors(final MethodArgumentNotValidException exception) {
-        var errors = new StringJoiner(",");
-        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
-            errors.add(fieldError.getDefaultMessage());
-        }
-        return errors;
-    }
+	private StringJoiner buildErrors(final ConstraintViolationException exception) {
+		var errors = new StringJoiner(",");
+		for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
+			var propertyPath = constraintViolation.getPropertyPath().toString();
+			var errorViolation = propertyPath.substring(propertyPath.lastIndexOf(".") + 1);
+			errors.add(errorViolation + space + constraintViolation.getMessage());
+		}
+		return errors;
+	}
+
+	private StringJoiner buildErrors(final MethodArgumentNotValidException exception) {
+		var errors = new StringJoiner(",");
+		for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
+			errors.add(fieldError.getDefaultMessage());
+		}
+		return errors;
+	}
 }

@@ -5,8 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ChatMessageRepository extends CrudRepository<ChatMessage,Long> {
-    List<ChatMessage> findAllByOrderByTimestampAsc();
+public interface ChatMessageRepository extends CrudRepository<ChatMessage, Long> {
+	List<ChatMessage> findAllByOrderByTimestampAsc();
 
-    List<ChatMessage> findAllBySenderOrderByTimestampAsc(String sender);
+	List<ChatMessage> findAllBySenderOrderByTimestampAsc(String sender);
 }

@@ -7,7 +7,6 @@ package com.chatserver.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
@@ -17,19 +16,19 @@ import java.time.LocalDateTime;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChatMessage {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String sender;
-    String currentUserName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
+	String sender;
+	String currentUserName;
 
-    String type;
+	String type;
 
-    String content;
-    LocalDateTime timestamp;
+	String content;
+	LocalDateTime timestamp;
 
-    @PrePersist
-    public void prePersist() {
-        timestamp = LocalDateTime.now();
-    }
+	@PrePersist
+	public void prePersist() {
+		timestamp = LocalDateTime.now();
+	}
 }

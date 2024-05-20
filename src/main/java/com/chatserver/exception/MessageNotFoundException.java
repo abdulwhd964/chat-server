@@ -5,8 +5,13 @@
  */
 package com.chatserver.exception;
 
-public class MessageNotFoundException extends  RuntimeException{
-    public MessageNotFoundException(String message) {
-        super(message);
-    }
+public class MessageNotFoundException extends RuntimeException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5538840086554832350L;
+
+	public MessageNotFoundException(String message) {
+		super(message);
+	}
 }

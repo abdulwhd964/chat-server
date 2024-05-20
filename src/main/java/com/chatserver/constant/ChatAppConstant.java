@@ -6,10 +6,10 @@
 package com.chatserver.constant;
 
 public class ChatAppConstant {
-    public static final String SUCCESS = "Success";
-    public static final String ERROR = "Error";
+	public static final String SUCCESS = "Success";
+	public static final String ERROR = "Error";
 
-    private ChatAppConstant() {
+	private ChatAppConstant() {
 
-    }
+	}
 }

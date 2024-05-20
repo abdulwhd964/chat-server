@@ -15,7 +15,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableCaching
 @OpenAPIDefinition(info = @Info(title = "Chat Server System", version = "1.0", description = "Chat Server System"))
 @SecurityScheme(name="chatserverapi",scheme = "basic",type = SecuritySchemeType.HTTP,in= SecuritySchemeIn.HEADER)
-
 public class ChatServerApplication {
 
 	public static void main(String[] args) {

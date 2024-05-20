@@ -22,8 +22,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,57 +30,61 @@ import org.springframework.transaction.annotation.Transactional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ChatMessageService {
 
-    ChatMessageRepository chatMessageRepository;
+	ChatMessageRepository chatMessageRepository;
 
-    UserRepository userRepository;
+	UserRepository userRepository;
 
-    ChatMapper chatMapper;
+	ChatMapper chatMapper;
 
-    @Transactional
-    @Caching(evict = { @CacheEvict(value = "chat", allEntries = true) })
-    public Response saveMessage(final ChatMessageDTO message) {
-        try{
-            return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
-                    .data(chatMapper.entityToDTO(chatMessageRepository.save(chatMapper.DtoToEntity(message)))).build();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    return null;
-    }
+	@Transactional
+	@Caching(evict = { @CacheEvict(value = "chat", allEntries = true) })
+	public Response saveMessage(final ChatMessageDTO message) {
+		try {
+			return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
+					.data(chatMapper.entityToDTO(chatMessageRepository.save(chatMapper.dtoToEntity(message)))).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-    @Cacheable(value = "chat",key = "#sender")
-    public Response getMessagesBySender(final String sender) {
-        return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
-                .data(chatMapper.entityToList(chatMessageRepository.findAllBySenderOrderByTimestampAsc(findBySender(sender)))).build();
-    }
+	@Cacheable(value = "chat", key = "#sender")
+	public Response getMessagesBySender(final String sender) {
+		return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
+				.data(chatMapper
+						.entityToList(chatMessageRepository.findAllBySenderOrderByTimestampAsc(findBySender(sender))))
+				.build();
+	}
 
-    @Cacheable(value = "chat",key = "#sender")
-    private String findBySender(final String sender){
-        User user = userRepository.findByUsername(sender).orElseThrow(() -> new UserNotFoundException(String.format("Sender: %s not found", sender)));
-        return user.getUsername();
-    }
+	@Cacheable(value = "chat", key = "#sender")
+	private String findBySender(final String sender) {
+		User user = userRepository.findByUsername(sender)
+				.orElseThrow(() -> new UserNotFoundException(String.format("Sender: %s not found", sender)));
+		return user.getUsername();
+	}
 
-    private ChatMessage findById(final Long id){
-       return chatMessageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException(String.format("Message id : %s not found", id)));
-    }
+	private ChatMessage findById(final Long id) {
+		return chatMessageRepository.findById(id)
+				.orElseThrow(() -> new MessageNotFoundException(String.format("Message id : %s not found", id)));
+	}
 
-    @Cacheable("chat")
-    public Response getMessages() {
-        return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
-                .data(chatMapper.entityToList(chatMessageRepository.findAllByOrderByTimestampAsc())).build();
-    }
+	@Cacheable("chat")
+	public Response getMessages() {
+		return new ResponseBuilder().message(ChatAppConstant.SUCCESS)
+				.data(chatMapper.entityToList(chatMessageRepository.findAllByOrderByTimestampAsc())).build();
+	}
 
-    @CacheEvict(value = "chat", key = "#id", allEntries = true)
-    public void deleteMessage(final Long id, final String username) {
-        findBySender(username);
-        ChatMessage message = findById(id);
-        if (message != null && message.getSender().equals(username)) {
-            chatMessageRepository.delete(message);
-        }
-    }
+	@CacheEvict(value = "chat", key = "#id", allEntries = true)
+	public void deleteMessage(final Long id, final String username) {
+		findBySender(username);
+		ChatMessage message = findById(id);
+		if (message != null && message.getSender().equals(username)) {
+			chatMessageRepository.delete(message);
+		}
+	}
 
-    public ChatMessage getMessageById(long id) {
-        return  chatMessageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException(String.format("Message id : %s not found", id)));
-    }
+	public ChatMessage getMessageById(long id) {
+		return chatMessageRepository.findById(id)
+				.orElseThrow(() -> new MessageNotFoundException(String.format("Message id : %s not found", id)));
+	}
 }

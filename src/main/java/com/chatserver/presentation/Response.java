@@ -11,19 +11,19 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Response {
 
-    String message;
-    Object data;
+	String message;
+	Object data;
 
-    public Response(String message, Object data) {
-        this.message = message;
-        this.data = data;
-    }
+	public Response(String message, Object data) {
+		this.message = message;
+		this.data = data;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    public Object getData() {
-        return data;
-    }
+	public Object getData() {
+		return data;
+	}
 }

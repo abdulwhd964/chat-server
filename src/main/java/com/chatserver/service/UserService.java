@@ -23,18 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class UserService implements UserDetailsService {
-    UserRepository userRepository;
+	UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        log.info("Load User By UserName invoked");
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(String.format("Username: %s not found", username)));
+	@Override
+	public UserDetails loadUserByUsername(String username) {
+		log.info("Load User By UserName invoked");
+		User user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new UserNotFoundException(String.format("Username: %s not found", username)));
 
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .build();
-    }
+		return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+				.password(user.getPassword()).build();
+	}
 
 }
