@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LoggingAspect {
 
-	static long START_TIME = System.currentTimeMillis();
+	static long startTime = System.currentTimeMillis();
 
 	@Pointcut("execution(* com.chatserver.controller.*.*(..))")
 	public void apiMethods() {
@@ -28,7 +28,7 @@ public class LoggingAspect {
 	public void logMethodExecution(JoinPoint joinPoint) {
 		String methodName = joinPoint.getSignature().getName();
 		String className = joinPoint.getTarget().getClass().getSimpleName();
-		log.info("Executing method {} in class {} and start time {} ", methodName, className, START_TIME);
+		log.info("Executing method {} in class {} and start time {} ", methodName, className, startTime);
 	}
 
 	@After("apiMethods()")
@@ -36,7 +36,7 @@ public class LoggingAspect {
 		String methodName = joinPoint.getSignature().getName();
 		String className = joinPoint.getTarget().getClass().getSimpleName();
 		long endTime = System.currentTimeMillis();
-		long executionTime = endTime - START_TIME;
+		long executionTime = endTime - startTime;
 		log.info("Method {} in class {} took {} milliseconds to execute", methodName, className, executionTime);
 	}
 }

@@ -9,7 +9,7 @@ import com.chatserver.dto.ChatMessageDTO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -20,13 +20,14 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class WebSocketEventListener {
 
 	private SimpMessageSendingOperations messagingTemplate;
 
 	@EventListener
 	public void handleWebSocketConnectListener(SessionConnectEvent event) {
-		System.out.println("New web socket Connection Established");
+		log.info("New web socket Connection Established");
 	}
 
 	@EventListener
