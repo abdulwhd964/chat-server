@@ -115,7 +115,7 @@ It supports real-time communication between users, authentication and more
 - cd your-project-directory
     - Build Docker Image: Navigate to the project directory and build the Docker image using the provided Dockerfile. <br>
     - Build Command:
-        - docker build -t docker buildx build -t chat-server .
+        - docker build -t chat-server .
     - Run Docker Container: Once the image is built, you can run it using Docker.<br>
     - Run Command:
         - docker run -p 8080:8080 chat-server .
