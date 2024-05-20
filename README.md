@@ -6,7 +6,13 @@ It supports real-time communication between users, authentication and more
 
 ## Render Deployment 
 
-- This application has been deployed with Render using Docker Image, you can access this application via [Application URL](https://chat-server-2-n70y.onrender.com/login) and [Backend Swagger URL](https://chat-server-2-n70y.onrender.com/swagger-ui/index.html) 
+- This application has been deployed with Render using Docker Image, you can access this application
+
+  [Application Login URL](https://chat-server-2-n70y.onrender.com/login)
+
+  [Application Swagger URL](https://chat-server-2-n70y.onrender.com/swagger-ui/index.html)
+  
+  [Application Logout URL](https://chat-server-2-n70y.onrender.com/logout)
 
 ## Prerequisites
 - Java 17 or higher
