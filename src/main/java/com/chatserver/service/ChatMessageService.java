@@ -74,6 +74,7 @@ public class ChatMessageService {
 				.data(chatMapper.entityToList(chatMessageRepository.findAllByOrderByTimestampAsc())).build();
 	}
 
+	@Transactional
 	@CacheEvict(value = "chat", key = "#id", allEntries = true)
 	public void deleteMessage(final Long id, final String username) {
 		findBySender(username);

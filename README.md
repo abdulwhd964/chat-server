@@ -6,19 +6,23 @@ It supports real-time communication between users, authentication and more
 
 ## Render Deployment 
 
-- This application has been deployed with Render using Docker Image, you can access this application via 
-- [Backend Swagger URL](https://chat-server-2-n70y.onrender.com/swagger-ui/index.html)
-- [Application URL](https://chat-server-2-n70y.onrender.com/login)
+- This application has been deployed with Render using Docker Image, you can access this application via [Application URL](https://chat-server-2-n70y.onrender.com/login) and [Backend Swagger URL](https://chat-server-2-n70y.onrender.com/swagger-ui/index.html) 
 
+## Prerequisites
+- Java 17 or higher
+- Maven
+- IDE (e.g., IntelliJ, Eclipse)
+- Lombok
+- Git
 
 ## Setup
 
-- Java 17 is required to run the application
-- Git clone
+- Java 17 or higher is required to run the application
+- Git Clone
 - mvn clean install
 - Make sure you have lombok in Eclipse IDE or you can use IntelliJ
 - navigate to the ChatServerApplication.java file, Run as Java application
-- Application url: [URL](http://localhost:8080/)
+- Launch the Application in the browser: [URL](http://localhost:8080/)
 - once the application launches, it prompts to enter username and password, you can find it under [SQL File](https://github.com/abdulwhd964/chat-server/blob/main/src/main/resources/schema.sql)
     
 ## Technologies Used
@@ -32,28 +36,12 @@ It supports real-time communication between users, authentication and more
 - Spring Cache
 - Implemented with ELK
 - Docker
-- Swagger
-
-## Prerequisites
-- Java 17 or higher
-- Maven
-- IDE (e.g., IntelliJ, Eclipse)
-- Lombok
+- Swagger for documentation
 
 ## Features
 
-### 1. CRUD Operations
 
-- **Post message:** [Post an message](http://localhost:8080/api/chat/message) , Method: POST
-- **Get all messages:** [Get all messages](http://localhost:8080/api/chat/messages) , Method: GET
-- **Get all messages by sender:** [Get all messages by sender](http://localhost:8080/api/chat/messages/sender) , Method: GET
-- **Delete message by sender:** [Delete message by id and sender](http://localhost:8080/api/chat/message/1?username=abdul) , Method: Delete
-
-### 2. Validation
-
-- content: should not be empty
-
-### 3. WebSockets
+### 1. WebSockets
 
 - **Connect to WebSocket
 - **Endpoint: /ws
@@ -62,11 +50,23 @@ It supports real-time communication between users, authentication and more
 - **Sending a Message: /app/chat
 - **Deleting a Message: /app/delete
 
+
+### 2. Operations
+
+- **Post message:** [Post an message](http://localhost:8080/api/chat/message) , Method: POST
+- **Get all messages:** [Get all messages](http://localhost:8080/api/chat/messages) , Method: GET
+- **Get all messages by sender:** [Get all messages by sender](http://localhost:8080/api/chat/messages/sender) , Method: GET
+- **Delete message by sender:** [Delete message by id and sender](http://localhost:8080/api/chat/message/1?username=abdul) , Method: Delete
+
+### 3. Validation
+
+- content: should not be empty
+
 ### 4. Logging
 
 - Logging has been handled by SLF4J and also implemenented ELK Stack to view the logs
 - logstash.conf file available at [Logstash file location](https://github.com/abdulwhd964/chat-server/blob/main/src/main/resources/logstash.conf)
-- Use this: if you have ELK Setup : Kibana URL: http://localhost:5601
+- Use this: if you have ELK Setup : [Kibana URL](http://localhost:5601)
 - Local Kibana Logs Image ![Alt text](https://github.com/abdulwhd964/chat-server/assets/61117499/6a456ff7-e2bd-4ec0-bd81-b6dd448edf97)
 
 ### 5. Transactional
@@ -121,3 +121,22 @@ It supports real-time communication between users, authentication and more
         - docker run -p 8080:8080 chat-server .
 
 ### 16. [Postman collection](https://github.com/abdulwhd964/chat-server/files/15370116/Chat.Server.Api.postman_collection.json)
+
+
+### 17. Dependencies
+
+- springboot 3
+- spring security
+- spring-web
+- lombok
+- h2
+- data-jpa
+- actuator
+- devtools
+- mapstruct
+- junit
+- mockito
+- swagger
+- aop
+- Java 17
+- websockets
