@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+/chat-server-application.log
+/chat-server-application.log.2024-05-19.0.gz
+/mvnw
+/mvnw.cmd
